@@ -1,27 +1,29 @@
-# Cat Customs - Custom Editor API Samples
+# VSCode Easy Custom Editor Example
 
-![Paw draw editor ](documentation/example.png)
+下記packageのExampleです。
 
-Demonstrates VS Code's [custom editor API](https://code.visualstudio.com/api/extension-guides/custom-editors) using two custom editors:
+https://github.com/hashrock/vscode-easy-custom-editor
 
-- Cat Scratch — Uses the finalized custom text editor api to provide a custom editor for `.cscratch` files (which are just json files)
-- Paw Draw - Uses the binary custom editor api to provide a custom editor for `.pawdraw` files (which are just png files with a different file extension).
+# 動機
 
-## VS Code API
+- VSCode Extension難しすぎる
+- ブートストラップコードが多すぎ
+- undo / redo難しすぎ
 
-### `vscode` module
+# 構成
 
-- [`window.registerCustomEditorProvider`](https://code.visualstudio.com/api/references/vscode-api#window.registerCustomEditorProvider)
-- [`CustomTextEditor`](https://code.visualstudio.com/api/references/vscode-api#CustomTextEditor)
-- [`CustomEditor`](https://code.visualstudio.com/api/references/vscode-api#CustomEditor)
+- Node.jsサイドがお仕着せになっている
+- client / host間は基本的にファイルのスナップショットを送り合っている
+- undoバッファはスナップショットをフルで持っている
+  - 特に解放はしていないので注意。用途によってはメモリがひどいことになる
 
-## Running the example
+# 制約
 
-- Open this example in VS Code 1.46+
-- `npm install`
-- `npm run watch` or `npm run compile`
-- `F5` to start debugging
+- フロントのbundleはmedia/dist/assets/js/index.js一本にすること
+- CSSはinlineにすること
 
-Open the example files from the `exampleFiles` directory.
+# おかしなところ
 
-c:\node\clone\vscode-extension-samples\custom-editor-sample\media\pawDraw.js 
+- undo / redoがずれる時がある？
+- そもそもundoやロードが遅い
+- どっかpromise内で例外が発生している
